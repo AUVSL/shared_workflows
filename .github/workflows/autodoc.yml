@@ -1,0 +1,38 @@
+on:
+    workflow_call:
+        inputs:
+            run-name:
+                required: false
+                description: 'Name of the run'
+                default: 'Running autodoc'
+                type: string
+name: documentation
+run-name: ${{ inputs.run-name }}
+jobs:
+    docs:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v4
+          - uses: actions/setup-python@v5
+            with:
+              python-version: '3.11' 
+          - name: Install dependencies
+            run: |
+              pip install sphinx sphinx_rtd_theme myst_parser
+          - name: Sphinx build
+            run: |
+              mkdir doc
+              cd doc
+              sphinx-quickstart -q -p ${{ github.event.repository.name }} -a AUVSL -v 1.0 --ext-githubpages --ext-viewcode --ext-coverage --extensions="sphinx.ext.napoleon","myst_parser"
+              sed -i '1s/^/import sys\nimport os\nsys.path.append(os.path.abspath(".."))\nsys.path.append(os.path.abspath("..\/src\/"))\n/' ./conf.py
+              sed -i 's/alabaster/sphinx_rtd_theme/g' ./conf.py
+              sphinx-apidoc -o source/ ../src/
+              sphinx-build . _build
+          - name: Deploy to GitHub Pages
+            uses: peaceiris/actions-gh-pages@v3
+            if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')}}
+            with:
+              publish_branch: gh-pages
+              github_token: ${{ secrets.GITHUB_TOKEN }}
+              publish_dir: doc/_build/
+              force_orphan: true
