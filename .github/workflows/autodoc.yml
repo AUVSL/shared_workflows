@@ -11,6 +11,9 @@ on:
                 description: 'Directory with code'
                 default: 'src'
                 type: string
+        secrets:
+            GH_PATH:
+                required: true
 name: documentation
 run-name: ${{ inputs.run-name }}
 jobs:
