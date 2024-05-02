@@ -31,7 +31,7 @@ jobs:
             run: |
               mkdir doc
               cd doc
-              sphinx-quickstart -q -p ${{ github.event.repository.name }} -a AUVSL -v 1.0 --ext-githubpages --ext-viewcode --ext-coverage --extensions="sphinx.ext.napoleon","myst_parser"
+              sphinx-quickstart -q -p ${{ github.event.repository.name }} -a AUVSL -v 1.0 --ext-githubpages --ext-viewcode --ext-coverage --extensions="sphinx.ext.napoleon","myst_parser","sphinx.ext.inheritance_diagram","sphinx.ext.todo","sphinx.ext.viewcode"
               sed -i '1s/^/import sys\nimport os\nsys.path.append(os.path.abspath(".."))\nsys.path.append(os.path.abspath("..\/${{ inputs.src }}\/"))\n/' ./conf.py
               sed -i 's/alabaster/sphinx_rtd_theme/g' ./conf.py
               sphinx-apidoc -o source/ ../${{ inputs.src }}/ -a --implicit-namespaces -P
