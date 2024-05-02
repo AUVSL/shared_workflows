@@ -24,6 +24,9 @@ jobs:
           - name: Install dependencies
             run: |
               pip install sphinx sphinx_rtd_theme myst_parser
+          - name: Install project dependencies
+            run: |
+              if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           - name: Sphinx build
             run: |
               mkdir doc
