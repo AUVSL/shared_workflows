@@ -12,7 +12,7 @@ on:
                 default: 'src'
                 type: string
         secrets:
-            GH_PATH:
+            GH_PAT:
                 required: true
 name: documentation
 run-name: ${{ inputs.run-name }}
