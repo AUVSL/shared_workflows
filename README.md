@@ -25,3 +25,8 @@ jobs:
     secrets:
       GH_PAT: ${{ secrets.GH_PAT }}
 ```
+
+
+## Resetting GitHub Pages DNS Cache
+
+To see instantaneous changes to the website you can just apped to the end of your Pages URL the query `/?version=f36af92` which will cause the GitHub DNS to rerun
