@@ -22,4 +22,6 @@ jobs:
     uses: AUVSL/shared_workflows/.github/workflows/<desired workflow>.yml@main
     with:
       run-name: '<desired message>'
+    secrets:
+      GH_PAT: ${{ secrets.GH_PAT }}
 ```
