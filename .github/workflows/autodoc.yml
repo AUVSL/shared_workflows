@@ -11,6 +11,11 @@ on:
                 description: 'Directory with code'
                 default: 'src'
                 type: string
+            python-version:
+                required: false
+                description: 'Python version to download dependencies'
+                default: '3.x'
+                type: string
         secrets:
             GH_PAT:
                 required: true
@@ -24,9 +29,12 @@ jobs:
             with:
                 submodules: 'recursive'
                 token: ${{ secrets.GH_PAT }}
-          - uses: actions/setup-python@v5
+          - name: Set up Python
+            uses: actions/setup-python@v5
             with:
-              python-version: '3.11' 
+              python-version: ${{ inputs.python-version }}
+          - name: Display Python version
+            run: python -c "import sys; print(sys.version)"
           - name: Install dependencies
             run: |
               pip install sphinx sphinx_rtd_theme myst_parser
